@@ -16,7 +16,3 @@ public struct Atomic {
         execute()
     }
 }
-
-public func atomicExecute(_ execute: () -> Void) {
-    
-}
