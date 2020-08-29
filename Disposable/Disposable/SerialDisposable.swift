@@ -25,6 +25,8 @@ public class SerialDisposable: Cancelable {
         return isDisposed
     }
     
+    public init() {}
+    
     public var disposable: DisposableType? {
         get {
             var _disposable :DisposableType?

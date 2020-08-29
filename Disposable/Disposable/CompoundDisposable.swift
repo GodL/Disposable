@@ -19,6 +19,8 @@ public class CompoundDisposable: Disposable {
         _isDisposed
     }
     
+    public init() {}
+    
     public func dispose() {
         guard !isDisposed else {
             return

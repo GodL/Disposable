@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Disposable'
-  s.version          = '1.0.6'
+  s.version          = '1.0.7'
   s.summary          = 'Resource cleanup.'
 
   s.homepage         = 'https://github.com/GodL/Disposable'
