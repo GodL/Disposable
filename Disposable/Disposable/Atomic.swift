@@ -11,6 +11,8 @@ import Foundation
 public struct Atomic {
     private let lock: NSLock = NSLock()
     
+    public init() {}
+    
     public func atomic(_ execute: () -> Void) {
         lock.lock() ;defer { lock.unlock() }
         execute()
