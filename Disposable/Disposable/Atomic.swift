@@ -17,4 +17,9 @@ public struct Atomic {
         lock.lock() ;defer { lock.unlock() }
         execute()
     }
+    
+    public func atomic<T>(_ execute: () -> T) -> T {
+        lock.lock(); defer { lock.unlock() }
+        return execute()
+    }
 }
