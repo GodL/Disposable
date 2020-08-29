@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Disposable'
-  s.version          = '1.0.4'
+  s.version          = '1.0.5'
   s.summary          = 'Resource cleanup.'
 
   s.homepage         = 'https://github.com/GodL/Disposable'
@@ -19,5 +19,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
   s.source_files = 'Disposable/Disposable/**.{swift,h}'
   
-  s.swift_version = '5.2'
+  s.swift_version = '5'
 end
