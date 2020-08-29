@@ -8,12 +8,12 @@
 
 import Foundation
 
-public class CompoundDisposable: Cancelable {
+public class CompoundDisposable: Disposable {
     private let lock: Atomic = Atomic()
     
     private var _isDisposed: Bool = false
     
-    private var _disposables: [Cancelable] = []
+    private var _disposables: [Disposable] = []
     
     public var isDisposed: Bool {
         _isDisposed
@@ -33,12 +33,12 @@ public class CompoundDisposable: Cancelable {
 }
 
 extension CompoundDisposable {
-    public convenience init(_ disposables: Cancelable...) {
+    public convenience init(_ disposables: Disposable...) {
         self.init()
         _disposables += disposables
     }
     
-    public convenience init(_ disposables: [Cancelable]) {
+    public convenience init(_ disposables: [Disposable]) {
         self.init()
         _disposables += disposables
     }
@@ -46,11 +46,11 @@ extension CompoundDisposable {
 
 extension CompoundDisposable {
     
-    public func add(_ disposables: Cancelable...) {
+    public func add(_ disposables: Disposable...) {
         add(disposables)
     }
     
-    public func add(_ disposables: [Cancelable]) {
+    public func add(_ disposables: [Disposable]) {
         let disposables = disposables.filter {
             !$0.isDisposed
         }

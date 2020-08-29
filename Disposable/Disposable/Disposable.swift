@@ -14,29 +14,31 @@ public protocol DisposableType {
     func asScoped() -> ScopedDisposable
 }
 
-extension DisposableType {
+public protocol Cancelable {
+    var isDisposed: Bool { get }
+}
+
+extension DisposableType where Self : Cancelable {
     public func asScoped() -> ScopedDisposable {
         return ScopedDisposable(self)
     }
 }
 
-public protocol Cancelable: DisposableType {
-    var isDisposed: Bool { get }
-}
+public typealias Disposable = DisposableType & Cancelable
 
-extension Array where Element == Cancelable {
+extension Array where Element == Disposable {
     public func dispose() {
-
+        self.forEach { $0.dispose() }
     }
 }
 
 public typealias DisposableAction = () -> Void
 
-public protocol ConcreteDisposableType: Cancelable {
+public protocol ConcreteDisposableType: Disposable {
     init(_ action: @escaping DisposableAction)
 }
 
-public class Disposable: ConcreteDisposableType {
+public class ConcreteDisposable: ConcreteDisposableType {
     private let lock: Atomic = Atomic()
     
     private var action: DisposableAction?

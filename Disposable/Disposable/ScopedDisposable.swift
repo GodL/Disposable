@@ -8,10 +8,14 @@
 
 import Foundation
 
-public class ScopedDisposable: DisposableType {
-    private let disposable: DisposableType
+public class ScopedDisposable: Disposable {
+    private let disposable: Disposable
     
-    public required init(_ disposable: DisposableType) {
+    public var isDisposed: Bool {
+        self.disposable.isDisposed
+    }
+    
+    public required init(_ disposable: Disposable) {
         self.disposable = disposable
     }
 
@@ -27,7 +31,7 @@ public class ScopedDisposable: DisposableType {
 
 extension ScopedDisposable {
     public convenience init(_ action: @escaping DisposableAction) {
-        let disposable: Disposable = Disposable(action)
+        let disposable: Disposable = ConcreteDisposable(action)
         self.init(disposable)
     }
 }
