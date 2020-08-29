@@ -16,7 +16,9 @@ public class CompoundDisposable: Disposable {
     private var _disposables: [Disposable] = []
     
     public var isDisposed: Bool {
-        _isDisposed
+        lock.atomic {
+            _isDisposed
+        }
     }
     
     public init() {}
@@ -26,11 +28,15 @@ public class CompoundDisposable: Disposable {
             return
         }
         
-        let disposables = _disposables
-        self.lock.atomic {
-            _isDisposed = true
+        let disposables: [Disposable]? = lock.atomic {
+            guard !self._isDisposed else {
+                return nil as [Disposable]?
+            }
+            let disposables = self._disposables
+            self._isDisposed = true
+            return disposables
         }
-        disposables.dispose()
+        disposables?.dispose()
     }
 }
 

@@ -9,44 +9,30 @@
 import Foundation
 
 
-public class SerialDisposable: Cancelable {
+public class SerialDisposable: Disposable {
     
     private let lock: Atomic = Atomic()
     
     private var _isDisposed: Bool = false
     
-    private var _disposable: DisposableType?
+    private var _disposable: Disposable?
     
     public var isDisposed: Bool {
-        var isDisposed = false
-        self.lock.atomic {
-            isDisposed = _isDisposed
-        }
-        return isDisposed
+        lock.atomic { _isDisposed }
     }
     
     public init() {}
     
-    public var disposable: DisposableType? {
+    public var disposable: Disposable? {
         get {
-            var _disposable :DisposableType?
-            self.lock.atomic {
-                _disposable = self.disposable
-            }
-            return _disposable
+            return lock.atomic { self.disposable }
         }
         set {
             guard !self.isDisposed else {
                 newValue?.dispose()
                 return
             }
-            
-            var _current: DisposableType?
-            self.lock.atomic {
-                _current = self._disposable
-                self._disposable = newValue
-            }
-            _current?.dispose()
+            lock.atomic { self._disposable }?.dispose()
         }
     }
     
@@ -54,11 +40,13 @@ public class SerialDisposable: Cancelable {
         guard !self.isDisposed else {
             return
         }
-        var current: DisposableType?
         
-        self.lock.atomic {
-            _isDisposed = true
-            current = self._disposable
+        let current: Disposable? = lock.atomic {
+            guard !self._isDisposed else {
+                return nil
+            }
+            self._isDisposed = true
+            return self.disposable
         }
         current?.dispose()
     }

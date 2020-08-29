@@ -55,9 +55,11 @@ public class ConcreteDisposable: ConcreteDisposableType {
         guard !self.isDisposed else {
             return
         }
-        lock.atomic {
-            action!()
-            action = nil
+        let current: DisposableAction? = lock.atomic {
+            let action = self.action
+            self.action = nil
+            return action
         }
+        current?()
     }
 }
