@@ -8,13 +8,13 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Disposable'
-  s.version          = '1.0.0'
+  s.version          = '1.0.1'
   s.summary          = 'Resource cleanup.'
 
   s.homepage         = 'https://github.com/GodL/Disposable'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { '547188371@qq.com' => '547188371@qq.com' }
-  s.source           = { :git => 'https://github.com/547188371@qq.com/Disposable.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/GodL/Disposable.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '8.0'
   s.source_files = 'Disposable/Disposable/**.{swift,h}'
