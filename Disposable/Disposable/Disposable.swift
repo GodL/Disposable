@@ -18,14 +18,13 @@ public protocol Cancelable {
     var isDisposed: Bool { get }
 }
 
-public typealias Disposable = DisposableType & Cancelable
-
-
-extension Disposable {
+extension DisposableType where Self : Cancelable {
     public func asScoped() -> ScopedDisposable {
         return ScopedDisposable(self)
     }
 }
+
+public typealias Disposable = DisposableType & Cancelable
 
 extension Array where Element == Disposable {
     public func dispose() {
