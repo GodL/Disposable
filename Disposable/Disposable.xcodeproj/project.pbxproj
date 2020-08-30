@@ -13,6 +13,7 @@
 		468B0EB924F8FBB40039FDBB /* CompoundDisposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468B0EB824F8FBB40039FDBB /* CompoundDisposable.swift */; };
 		468B0EBB24F905400039FDBB /* ScopedDisposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468B0EBA24F905400039FDBB /* ScopedDisposable.swift */; };
 		468B0EBD24F916B10039FDBB /* SerialDisposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468B0EBC24F916B10039FDBB /* SerialDisposable.swift */; };
+		C903D04524FB709A007166A2 /* NonDisposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903D04424FB709A007166A2 /* NonDisposable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		468B0EB824F8FBB40039FDBB /* CompoundDisposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundDisposable.swift; sourceTree = "<group>"; };
 		468B0EBA24F905400039FDBB /* ScopedDisposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScopedDisposable.swift; sourceTree = "<group>"; };
 		468B0EBC24F916B10039FDBB /* SerialDisposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialDisposable.swift; sourceTree = "<group>"; };
+		C903D04424FB709A007166A2 /* NonDisposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonDisposable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				468B0EB824F8FBB40039FDBB /* CompoundDisposable.swift */,
 				468B0EBA24F905400039FDBB /* ScopedDisposable.swift */,
 				468B0EBC24F916B10039FDBB /* SerialDisposable.swift */,
+				C903D04424FB709A007166A2 /* NonDisposable.swift */,
 				468B0EB624F8F6A80039FDBB /* Atomic.swift */,
 				468B0EAD24F8F2160039FDBB /* Info.plist */,
 			);
@@ -148,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				468B0EB724F8F6A80039FDBB /* Atomic.swift in Sources */,
+				C903D04524FB709A007166A2 /* NonDisposable.swift in Sources */,
 				468B0EBB24F905400039FDBB /* ScopedDisposable.swift in Sources */,
 				468B0EB924F8FBB40039FDBB /* CompoundDisposable.swift in Sources */,
 				468B0EB524F8F2760039FDBB /* Disposable.swift in Sources */,
