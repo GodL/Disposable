@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Atomicity
 
 public protocol DisposableType {
     func dispose()
@@ -39,27 +40,28 @@ public protocol ConcreteDisposableType: Disposable {
 }
 
 public class ConcreteDisposable: ConcreteDisposableType {
-    private let lock: Atomic = Atomic()
+    private let _state: UnsafeAtomicBool = UnsafeAtomicBool()
     
-    private var action: DisposableAction?
+    private let action: DisposableAction
         
     public var isDisposed: Bool {
-        action == nil
+        _state.bool
     }
     
     public required init(_ action: @escaping DisposableAction) {
         self.action = action
     }
     
+    deinit {
+        _state.deinititalize()
+    }
+    
     public func dispose() {
         guard !self.isDisposed else {
             return
         }
-        let current: DisposableAction? = lock.atomic {
-            let action = self.action
-            self.action = nil
-            return action
+        if _state.true() {
+            self.action()
         }
-        current?()
     }
 }

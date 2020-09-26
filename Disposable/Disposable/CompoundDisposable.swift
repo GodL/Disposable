@@ -7,36 +7,32 @@
 //
 
 import Foundation
+import Atomicity
 
 public class CompoundDisposable: Disposable {
-    private let lock: Atomic = Atomic()
+    private var _isDisposed: UnsafeAtomicBool = UnsafeAtomicBool()
     
-    private var _isDisposed: Bool = false
+    private let lock: SpinLock = SpinLock.make()
     
     private var _disposables: [Disposable] = []
     
     public var isDisposed: Bool {
-        lock.atomic {
-            _isDisposed
-        }
+        _isDisposed.bool
     }
     
     public init() {}
     
+    deinit {
+        _isDisposed.deinititalize()
+    }
+    
     public func dispose() {
-        guard !isDisposed else {
-            return
-        }
+        guard !isDisposed else { return }
         
-        let disposables: [Disposable]? = lock.atomic {
-            guard !self._isDisposed else {
-                return nil as [Disposable]?
-            }
-            let disposables = self._disposables
-            self._isDisposed = true
-            return disposables
+        if _isDisposed.true() {
+            lock.lock(); defer { lock.unLock() }
+            _disposables.dispose()
         }
-        disposables?.dispose()
     }
 }
 
@@ -59,26 +55,16 @@ extension CompoundDisposable {
     }
     
     public func add(_ disposables: [Disposable]) {
-        let disposables = disposables.filter {
-            !$0.isDisposed
-        }
-        
-        guard disposables.count > 0 else {
+        guard !self.isDisposed else {
+            disposables.dispose()
             return
         }
         
-        var shouldDisposed: Bool = false
-        
-        lock.atomic {
-            if isDisposed {
-                shouldDisposed = true
-            }else {
-                _disposables.append(contentsOf: disposables)
-            }
-        }
-        if shouldDisposed {
+        if lock.tryLock() {
+            _disposables.append(contentsOf: disposables)
+            lock.unLock()
+        }else {
             disposables.dispose()
         }
-        
     }
 }

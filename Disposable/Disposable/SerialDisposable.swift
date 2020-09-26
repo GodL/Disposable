@@ -7,32 +7,34 @@
 //
 
 import Foundation
-
+import Atomicity
 
 public class SerialDisposable: Disposable {
+        
+    private var _isDisposed: UnsafeAtomicBool = UnsafeAtomicBool()
     
-    private let lock: Atomic = Atomic()
-    
-    private var _isDisposed: Bool = false
-    
-    private var _disposable: Disposable?
+    private let _disposable: Atomic<Disposable> = Atomic()
     
     public var isDisposed: Bool {
-        lock.atomic { _isDisposed }
+        _isDisposed.bool
     }
     
     public init() {}
     
+    deinit {
+        _isDisposed.deinititalize()
+    }
+    
     public var disposable: Disposable? {
         get {
-            return lock.atomic { self.disposable }
+            return _disposable.value
         }
         set {
             guard !self.isDisposed else {
                 newValue?.dispose()
                 return
             }
-            lock.atomic { self._disposable }?.dispose()
+            _disposable.swap(newValue)?.dispose()
         }
     }
     
@@ -40,14 +42,8 @@ public class SerialDisposable: Disposable {
         guard !self.isDisposed else {
             return
         }
-        
-        let current: Disposable? = lock.atomic {
-            guard !self._isDisposed else {
-                return nil
-            }
-            self._isDisposed = true
-            return self.disposable
+        if _isDisposed.true() {
+            _disposable.value?.dispose()
         }
-        current?.dispose()
     }
 }

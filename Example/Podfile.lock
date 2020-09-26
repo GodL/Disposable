@@ -1,0 +1,16 @@
+PODS:
+  - Atomicity (1.0.3)
+
+DEPENDENCIES:
+  - Atomicity
+
+SPEC REPOS:
+  trunk:
+    - Atomicity
+
+SPEC CHECKSUMS:
+  Atomicity: 60fb61d0dd05be57766ef4c034c66aa957dfa7f2
+
+PODFILE CHECKSUM: eb4004bd4f442ca95900a2cfee5ac948e2f79974
+
+COCOAPODS: 1.9.0

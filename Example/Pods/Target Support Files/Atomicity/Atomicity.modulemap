@@ -1,0 +1,6 @@
+framework module Atomicity {
+  umbrella header "Atomicity-umbrella.h"
+
+  export *
+  module * { export * }
+}
