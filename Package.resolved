@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Atomicity",
+        "repositoryURL": "https://github.com/GodL/Atomic.git",
+        "state": {
+          "branch": null,
+          "revision": "96ce6ec5f4b42c1da954745d409b766829c53272",
+          "version": "1.0.4"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
